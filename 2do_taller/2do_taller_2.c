@@ -27,7 +27,7 @@ int main(void) {
 	printf("| Numero | Apariciones | Porcentaje |\n");
 	printf("-------------------------------------\n");
 	for (i=0; i < n; i++) {
-		printf("| %6d | %11d | %8.2f % |\n", i, vector[i], (float) vector[i] / (float) 8);
+		printf("| %6d | %11d | %8.2f %% |\n", i, vector[i], (float) vector[i] / (float) 8);
 	}
 	printf("-------------------------------------\n");
 	
