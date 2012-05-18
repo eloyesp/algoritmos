@@ -18,55 +18,50 @@ typedef struct Fecha fecha;
 
 char *read_line (char *buf, size_t length);
 int fecha_compare ( const fecha fecha_1, const fecha fecha_2);
-fecha str_to_fecha( char *str );
+fecha str_to_fecha( const char *str );
 
-int main(int argc, char *argv[]) {
-	int aux;
+int main(void) {
+	int aux, i;
 	char cadena[LM];
-	fecha fecha_1;
-	fecha fecha_2;
-	fecha *mayor;
-	fecha *menor;
-	
+	fecha fecha_1, fecha_2;
+	fecha *ordenadas[2];
+
 	printf("ingrese una fecha (ej: '1985-07-16'): ");
-	//read_line(cadena, LM);
-	puts("2008-07-16");
-	fecha_1 = str_to_fecha("2008-07-16");
-	
+	read_line(cadena, LM);
+	fecha_1 = str_to_fecha(cadena);
+
 	printf("ingrese otra fecha: ");
 	read_line(cadena, LM);
-	//puts("2008-07-15");
 	fecha_2 = str_to_fecha(cadena);
-	
+
 	//resultados
 	printf("Fecha: %i - %i - %i\n", fecha_1.anio, fecha_1.mes, fecha_1.dia );
 	printf("Fecha: %i - %i - %i\n", fecha_2.anio, fecha_2.mes, fecha_2.dia );
-	
+
 	aux = fecha_compare(fecha_1, fecha_2);
 	if (aux > 0) {
 		printf("La primera es mayor que la segunda\n");
-		mayor = &fecha_1;
-		menor = &fecha_2;
+		ordenadas[1] = &fecha_1;
+		ordenadas[0] = &fecha_2;
 	} else if (aux < 0) {
 		printf("La segunda es mayor que la primera\n");
-		mayor = &fecha_2;
-		menor = &fecha_1;
+		ordenadas[0] = &fecha_1;
+		ordenadas[1] = &fecha_2;
 	} else {
 		printf("Ambas fechas son iguales\n");
-		mayor = menor = &fecha_2;
-		
+		ordenadas[0] = ordenadas[1] = &fecha_1;
 	}
-	
-	printf("Mayor: %i - %i - %i\n"
-		   "Menor: %i - %i - %i\n",
-			mayor -> anio, mayor -> mes, mayor -> dia,
-			menor -> anio, menor -> mes, menor -> dia);
-	
+	puts("\nOrdenadas Cronologicamente:\n");
+	for (i=0; i<2; i++) {
+		printf("%i - %i - %i\n",
+			ordenadas[i] -> anio, ordenadas[i] -> mes, ordenadas[i] -> dia);
+	}
+
 	return 0;
 }
 
 
-fecha str_to_fecha(char *str) {
+fecha str_to_fecha(const char *str) {
 	char cadena[LM];
 	char separador[] = "-";
 	fecha aux;
@@ -76,7 +71,7 @@ fecha str_to_fecha(char *str) {
 	aux.anio = atoi(strtok( cadena, separador )); // Primera llamada => Primer token
 	aux.mes = atoi(strtok( NULL, separador ));
 	aux.dia = atoi(strtok( NULL, separador ));
-	
+
 	return aux;
 }
 
@@ -86,7 +81,7 @@ int fecha_compare ( const fecha fecha_1, const fecha fecha_2)
 	*/
 {
 	int diff;
-	
+
 	diff = fecha_1.anio - fecha_2.anio;
 	if (diff == 0) {
 		diff = fecha_1.mes - fecha_2.mes;
@@ -104,10 +99,10 @@ char *read_line (char *buf, size_t length)
 	*/
 {
 	char *p;
-	
+
 	if ((p = fgets (buf, length, stdin))) {
 		size_t last = strlen (buf) - 1;
-		
+
 		if (buf[last] == '\n') {
 			/**** Discard the trailing newline */
 			buf[last] = '\0';
