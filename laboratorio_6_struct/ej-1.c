@@ -22,6 +22,7 @@ fecha str_to_fecha( char *str );
 
 int main(int argc, char *argv[]) {
 	int aux;
+	char cadena[LM];
 	fecha fecha_1;
 	fecha fecha_2;
 	fecha *mayor;
@@ -33,9 +34,9 @@ int main(int argc, char *argv[]) {
 	fecha_1 = str_to_fecha("2008-07-16");
 	
 	printf("ingrese otra fecha: ");
-	//read_line(cadena, LM);
-	puts("2008-07-15");
-	fecha_2 = str_to_fecha("2008-07-15");
+	read_line(cadena, LM);
+	//puts("2008-07-15");
+	fecha_2 = str_to_fecha(cadena);
 	
 	//resultados
 	printf("Fecha: %i - %i - %i\n", fecha_1.anio, fecha_1.mes, fecha_1.dia );
@@ -84,20 +85,17 @@ int fecha_compare ( fecha const fecha_1, fecha const fecha_2)
 	anterior.
 	*/
 {
-	if (fecha_1.anio > fecha_2.anio)
-		return 1;
-	else if (fecha_1.anio < fecha_2.anio)
-		return -1;
-	else if (fecha_1.mes > fecha_2.mes)
-		return 1;
-	else if (fecha_1.mes < fecha_2.mes)
-		return -1;
-	else if (fecha_1.dia > fecha_2.dia)
-		return 1;
-	else if (fecha_1.dia < fecha_2.dia)
-		return -1;
-	else
-		return 0;
+	int diff;
+	
+	diff = fecha_1.anio - fecha_2.anio;
+	if (diff != 0)
+		return diff;
+	else if ((diff = fecha_1.mes - fecha_2.mes) != 0)
+		return diff;
+	else {
+		diff = fecha_1.dia - fecha_2.dia;
+		return diff;
+	}
 }
 
 char *read_line (char *buf, size_t length)
