@@ -80,22 +80,21 @@ fecha str_to_fecha(char *str) {
 	return aux;
 }
 
-int fecha_compare ( fecha const fecha_1, fecha const fecha_2)
-	/**** Compara las fechas y retorna un numero >, < o = a 0 segun cual es
+int fecha_compare ( const fecha fecha_1, const fecha fecha_2)
+	/* Compara las fechas y retorna un numero >, < o = a 0 segun cual es
 	anterior.
 	*/
 {
 	int diff;
 	
 	diff = fecha_1.anio - fecha_2.anio;
-	if (diff != 0)
-		return diff;
-	else if ((diff = fecha_1.mes - fecha_2.mes) != 0)
-		return diff;
-	else {
-		diff = fecha_1.dia - fecha_2.dia;
-		return diff;
+	if (diff == 0) {
+		diff = fecha_1.mes - fecha_2.mes;
+		if (diff == 0)
+			diff = fecha_1.dia - fecha_2.dia;
 	}
+
+	return diff;
 }
 
 char *read_line (char *buf, size_t length)
