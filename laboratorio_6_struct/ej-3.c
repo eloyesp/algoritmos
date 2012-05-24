@@ -50,7 +50,7 @@ empleado * empleado_con_mayor_salario(empleado empleados[], int const n);
 void mostrar_datos_empleado(const empleado * const e);
 void listado_de_empleados_con_horas(const empleado empleados[], const int n, const int min_horas);
 void contar_mujeres_varones(empleado empleados[], const int n);
-void listar_promedio_salario_por_rango_de_edad(empleado empleados[]);
+void listar_promedio_salario_por_rango_de_edad(empleado empleados[], const int n);
 Fecha new_fecha(const int anio, const int mes, const int dia);
 	
 // main
@@ -75,16 +75,16 @@ int main(void) {
 	
 	contar_mujeres_varones(empleados, cantidad);
 	
-	//listar_promedio_salario_por_rango_de_edad(empleados);
+	listar_promedio_salario_por_rango_de_edad(empleados, cantidad);
 	
-	printf("\nFIN\n");
+	printf("\n\nFIN\n");
 	return 0;
 }
 
 void nueva_persona(persona * p, char * nombre) {
 	strcpy(p->nombre, nombre);
 	p->documento = rand() % 10000000;
-	p->edad = rand()%40 + 18;
+	p->edad = rand()%50 + 20;
 	p->sexo = (rand()%2) ? 'M' : 'F';
 	p->fecha_nacimiento = new_fecha(2012 - p->edad, rand()%12+1, rand()%30+1);
 }
@@ -165,5 +165,29 @@ void contar_mujeres_varones(empleado empleados[], const int n) {
 			mujeres++;
 	}
 	
-	printf("La cantidad de mujeres es: %i y la cantidad de varones es: %i", mujeres, varones);
+	printf("La cantidad de mujeres es: %i y la cantidad de varones es: %i\n", mujeres, varones);
+}
+
+void listar_promedio_salario_por_rango_de_edad(empleado empleados[], const int n) {
+	int matriz[2][5], i, aux;
+	for (i=0; i<5; i++) {
+		matriz[0][i] = matriz[1][i] = 0;
+	}
+	for (i=0; i<n; i++) {
+		aux = empleados[i].miembro.edad / 10;
+		if (aux > 6) 
+			aux = 6;
+		aux -= 2; // las categorias empiezan en 20 anios
+		matriz[0][aux] += empleados[i].salario;
+		matriz[1][aux]++;
+	}
+	
+	printf("\nPromedios de sueldo por rango de edad:\n");
+	for (i=0; i<4; i++) {
+		if (matriz[1][i] > 0)
+			printf("%i-%i -> $ %.2f ", (i+2)*10, (i+3)*10, (float) matriz[0][i] / matriz[1][i]);
+	}
+	printf("60-100 -> $ %f ", (float) matriz[0][i] / matriz[1][i]);
+	
+	
 }
