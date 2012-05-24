@@ -49,7 +49,7 @@ int cargar_empleados(empleado empleados[]);
 empleado * empleado_con_mayor_salario(empleado empleados[], int const n);
 void mostrar_datos_empleado(const empleado * const e);
 void listado_de_empleados_con_horas(const empleado empleados[], const int n, const int min_horas);
-void contar_mujeres_varones(empleado empleados[]);
+void contar_mujeres_varones(empleado empleados[], const int n);
 void listar_promedio_salario_por_rango_de_edad(empleado empleados[]);
 Fecha new_fecha(const int anio, const int mes, const int dia);
 	
@@ -73,7 +73,7 @@ int main(void) {
 	
 	listado_de_empleados_con_horas(empleados, cantidad, n);
 	
-	//contar_mujeres_varones(empleados);
+	contar_mujeres_varones(empleados, cantidad);
 	
 	//listar_promedio_salario_por_rango_de_edad(empleados);
 	
@@ -153,4 +153,17 @@ void listado_de_empleados_con_horas(const empleado empleados[], const int n, con
 			printf("%s ", empleados[i].miembro.nombre);
 	}
 	printf("\n");
+}
+
+void contar_mujeres_varones(empleado empleados[], const int n) {
+	int mujeres, varones, i;
+	mujeres = varones = 0;
+	for (i=0; i<n; i++) {
+		if (empleados[i].miembro.sexo == 'M')
+			varones++;
+		else
+			mujeres++;
+	}
+	
+	printf("La cantidad de mujeres es: %i y la cantidad de varones es: %i", mujeres, varones);
 }
