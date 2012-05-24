@@ -35,35 +35,63 @@ struct Persona {
 typedef struct Persona persona;
 
 struct Empleado {
-	persona * miembro;
+	persona miembro;
     int salario;
     int horas_por_semana;
 };
 typedef struct Empleado empleado;
 
+/** Prototipos
+*/
+
+int cargar_empleados(empleado empleados[]);
+empleado * empleado_con_mayor_salario(empleado empleados[]);
+void mostrar_datos_empleado(const empleado * const e);
+void listado_de_empleados_con_horas(const empleado empleados[], const int n);
+void contar_mujeres_varones(empleado empleados[]);
+void listar_promedio_salario_por_rango_de_edad(empleado empleados[]);
+
+// main
 int main(void) {
 	empleado empleados[TF]; // Arreglo de los empleados de la empresa.
-	int n;
+	int n, cantidad;
 	char input[LM];
 	
-	cargar_empleados(empleados, TF);
+	cantidad = cargar_empleados(empleados);
 	
-	mostrar_datos_empleado(empleado_con_mayor_salario(empleados));
+	//mostrar_datos_empleado(empleado_con_mayor_salario(empleados));
 	
-	printf("\n\nIngrese un valor n: ")
-	gets(&input);
+	printf("\n\nIngrese un valor n: ");
+	gets(input);
 	while ((n = atoi(input)) < 1) {
-		printf("Valor Incorrecto\nIngrese un valor n: ")
-		gets(&input);
+		printf("Valor Incorrecto\nIngrese un valor n: ");
+		gets(input);
 	}
 	
-	listado_de_empleados_con_horas(empleados, n);
+	//listado_de_empleados_con_horas(empleados, n);
 	
-	contar_mujeres_varones(empleados);
+	//contar_mujeres_varones(empleados);
 	
-	listar_promedio_salario_por_rango_de_edad(empleados);
+	//listar_promedio_salario_por_rango_de_edad(empleados);
 	
+	printf("\nFIN\n");
 	return 0;
+}
+
+void nuevo_empleado(empleado * e, char * nombre) {
+	persona p = { "jorge", 3096148, 24, 'M', {2010, 5, 13}};
+	e->miembro = p;
+	e->salario = 1000;
+	e->horas_por_semana = 4;
+}
+
+int cargar_empleados(empleado empleados[]) {
+	int i = 0;
+	
+	nuevo_empleado(&empleados[0], "Jorge");
+	printf("%s\n", empleados[0].miembro.nombre);
+	
+	return i;
 }
 
 
