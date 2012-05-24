@@ -46,9 +46,9 @@ typedef struct Empleado empleado;
 */
 
 int cargar_empleados(empleado empleados[]);
-empleado * empleado_con_mayor_salario(empleado empleados[]);
+empleado * empleado_con_mayor_salario(empleado empleados[], int const n);
 void mostrar_datos_empleado(const empleado * const e);
-void listado_de_empleados_con_horas(const empleado empleados[], const int n);
+void listado_de_empleados_con_horas(const empleado empleados[], const int n, const int min_horas);
 void contar_mujeres_varones(empleado empleados[]);
 void listar_promedio_salario_por_rango_de_edad(empleado empleados[]);
 Fecha new_fecha(const int anio, const int mes, const int dia);
@@ -62,7 +62,7 @@ int main(void) {
 	cantidad = cargar_empleados(empleados);
 	printf("%i empleados cargados", cantidad);
 	
-	//mostrar_datos_empleado(empleado_con_mayor_salario(empleados));
+	mostrar_datos_empleado(empleado_con_mayor_salario(empleados, cantidad));
 	
 	printf("\n\nIngrese un valor n: ");
 	gets(input);
@@ -71,7 +71,7 @@ int main(void) {
 		gets(input);
 	}
 	
-	//listado_de_empleados_con_horas(empleados, n);
+	listado_de_empleados_con_horas(empleados, cantidad, n);
 	
 	//contar_mujeres_varones(empleados);
 	
@@ -116,19 +116,41 @@ Fecha new_fecha(const int anio, const int mes, const int dia)
 	return aux;
 }
 
-//fecha str_to_fecha(const char * const str)
-//	/* Retorna una nueva fecha a partir de una cadena de la forma 'anio-mes-dia'
-//	*/
-//{
-//	char cadena[LM];
-//	char separador[] = "-";
-//	fecha aux;
-//	
-//	strcpy(cadena, str);
-//	
-//	aux.anio = atoi(strtok( cadena, separador ));
-//	aux.mes = atoi(strtok( NULL, separador ));
-//	aux.dia = atoi(strtok( NULL, separador ));
-//	
-//	return aux;
-//}
+empleado * empleado_con_mayor_salario(empleado empleados[], const int n) {
+	int i, max = empleados[0].salario;
+	empleado * mejor = &empleados[0];
+	
+	for (i=1; i<n; i++) {
+		if (max < empleados[i].salario) {
+			max = empleados[i].salario;
+			mejor = &empleados[i];
+		}
+	}
+
+	return mejor;
+}
+
+void mostrar_datos_empleado(const empleado * const e) {
+	
+	printf("\nDatos del empleado:\n"
+		"Nombre: %s\n"
+		"Documento: %i\n"
+		"Fecha de nacimiento: %i-%i-%i (%i anios)\n"
+		"Salario: %i\n"
+		"Horas de trabajo: %i\n"
+		"Sueldo por hora: %.2f\n\n",
+		e->miembro.nombre, e->miembro.documento, e->miembro.fecha_nacimiento.dia,
+		e->miembro.fecha_nacimiento.mes, e->miembro.fecha_nacimiento.anio,
+		e->miembro.edad, e->salario, e->horas_por_semana,
+		(float) e->salario / e->horas_por_semana / 4);
+}
+
+void listado_de_empleados_con_horas(const empleado empleados[], const int n, const int min_horas) {
+	int i;
+	printf ("Los empleados que trabajan mas de %i horas son: ", min_horas);
+	for (i=0; i<n; i++) {
+		if (empleados[i].horas_por_semana >= min_horas)
+			printf("%s ", empleados[i].miembro.nombre);
+	}
+	printf("\n");
+}
