@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #define LM 25
 #define TF 15
 
@@ -50,7 +51,8 @@ void mostrar_datos_empleado(const empleado * const e);
 void listado_de_empleados_con_horas(const empleado empleados[], const int n);
 void contar_mujeres_varones(empleado empleados[]);
 void listar_promedio_salario_por_rango_de_edad(empleado empleados[]);
-
+Fecha new_fecha(const int anio, const int mes, const int dia);
+	
 // main
 int main(void) {
 	empleado empleados[TF]; // Arreglo de los empleados de la empresa.
@@ -58,6 +60,7 @@ int main(void) {
 	char input[LM];
 	
 	cantidad = cargar_empleados(empleados);
+	printf("%i empleados cargados", cantidad);
 	
 	//mostrar_datos_empleado(empleado_con_mayor_salario(empleados));
 	
@@ -78,18 +81,28 @@ int main(void) {
 	return 0;
 }
 
+void nueva_persona(persona * p, char * nombre) {
+	strcpy(p->nombre, nombre);
+	p->documento = rand() % 10000000;
+	p->edad = rand()%40 + 18;
+	p->sexo = (rand()%2) ? 'M' : 'F';
+	p->fecha_nacimiento = new_fecha(2012 - p->edad, rand()%12+1, rand()%30+1);
+}
+
 void nuevo_empleado(empleado * e, char * nombre) {
-	persona p = { "jorge", 3096148, 24, 'M', {2010, 5, 13}};
-	e->miembro = p;
-	e->salario = 1000;
-	e->horas_por_semana = 4;
+	nueva_persona(&e->miembro, nombre);
+	e->salario = rand()%100000;
+	e->horas_por_semana = rand()%50;	
 }
 
 int cargar_empleados(empleado empleados[]) {
 	int i = 0;
+	char *nombres[10] = { "Jorge", "Adrian", "Miriam", "Adriana", "Raquel"};
 	
-	nuevo_empleado(&empleados[0], "Jorge");
-	printf("%s\n", empleados[0].miembro.nombre);
+	for (i=0; i<5; i++) {
+		nuevo_empleado(&empleados[i], nombres[i]);
+	}
+	printf("%s\n", empleados[i-1].miembro.nombre);
 	
 	return i;
 }
