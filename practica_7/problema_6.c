@@ -6,18 +6,18 @@
 #define SEED 8
 #define MAX 25
 
-void visualizar(float matriz[][N], int cf, int cc) {
+void visualizar(int matriz[][N], int cf, int cc) {
   int i, j;
   for (i=0; i < cf; i++) {
     printf("| ");
     for (j=0; j < cc; j++)
-      printf("%5.2f  ", matriz[i][j]);
+      printf("%2i  ", matriz[i][j]);
     printf("| \n");
   }
 }
 
 int main(void) {
-  float matriz[M][N], vector[N][2], minimo;
+  int matriz[M][N], vector[N][2], minimo;
   int i, j;
   srand(time(NULL));
 
@@ -47,17 +47,16 @@ int main(void) {
 			vector[i][1] = vector[i-1][1];
 			i--;
 		}
-		vector[i][0] = minimo;
-		vector[i][1] = j;
+	vector[i][0] = minimo;
+	vector[i][1] = j;
   }
 
   puts("");
   visualizar(matriz, M, N);
   puts("");
   for (j=0; j<N; j++)
-    printf("%8.2f (minimo de la columna %d)\n",
-      vector[j][0],
-      (int) vector[j][1] + 1);
+    printf("%2i (minimo de la columna %d)\n",
+      vector[j][0], vector[j][1] + 1);
 
   return 0;
 }
