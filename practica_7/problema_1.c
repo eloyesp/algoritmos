@@ -1,29 +1,34 @@
 # include <stdio.h>
-# define TF 5
+# include <stdlib.h>
+# define FILAS 6
+# define COLUMNAS 8
 # define SEED 5
 
-void visualizar(int matriz[][TF], int cf, int cc) {
+void visualizar(int matriz[][FILAS], int cf, int cc) {
   int i, j;
   for (i=0; i < cf; i++) {
-    printf("| ");
+    printf("Fila %2i | ", i+1 );
     for (j=0; j < cc; j++)
       printf("%2d ", matriz[i][j]);
     printf("| \n");
   }
-}
-
-void visualizar_por_columnas(int matriz[][TF], int cf, int cc)
-{
-  int i, j;
-  for (j=0; j < cc; j++) {
-    for (i=0; i < cf; i++)
-      printf("%d ", matriz[i][j]);
-  }
   printf("\n");
 }
 
+void visualizar_por_columnas(int matriz[][FILAS], int cf, int cc)
+{
+	int i, j;
+	for (j=0; j < cc; j++) {
+		printf("Columna %2i: ", j+1 );
+		for (i=0; i < cf; i++)
+			printf("%2d ", matriz[i][j]);
+		printf("\n");
+	}
+	printf("\n");
+}
+
 int main(void) {
-  int matriz[TF][TF], cf = TF, cc = TF, i, j;
+  int matriz[COLUMNAS][FILAS], cf = FILAS, cc = COLUMNAS, i, j;
   srand(SEED);
 
   // lleno la matriz
@@ -32,10 +37,12 @@ int main(void) {
       matriz[i][j] = rand() % 100;
   }
 
-  puts("");
+  puts("Visualizando por filas\n"
+	   "============ === =====");
   visualizar(matriz, cf, cc);
 
-  puts("");
+  puts("Visualizando por columnas\n"
+	   "============ === ========");
   visualizar_por_columnas(matriz, cf, cc);
 
   return 0;
